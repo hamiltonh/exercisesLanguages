@@ -1,4 +1,7 @@
-//PRACTICE IF ELSE
+/*
+112020 JAVASCRIPT CONDITIONALS IF ELSE - PLATZI COURSE
+@hamilton_h
+*/
 let arrayOptionsAllowed = ['PIEDRA','PAPEL','TIJERA'];
 let messages = {
     ERROR        : 'ERROR. OPCION NO VALIDA',
@@ -6,7 +9,7 @@ let messages = {
     GAMERWIN     : 'GANA JUGADOR!',
     COMPUTERWIN  : 'GANA COMPUTADORA! JAJA'
 }
-let winsWho = {
+let winsTo = {
     PIEDRA  : 'TIJERA',
     PAPEL   : 'PIEDRA',
     TIJERA  : 'PAPEL'
@@ -31,10 +34,10 @@ function selectWinner( gamerOpcion, computerOption ){
         if (gamerOpcion === computerOption){
             rst = messages.TIE;
         }
-        else if ( winsWho[gamerOpcion] === computerOption ){
+        else if ( winsTo[gamerOpcion] === computerOption ){
             rst = messages.GAMERWIN;
         
-        }else if ( winsWho[computerOption] === gamerOpcion ) {
+        }else if ( winsTo[computerOption] === gamerOpcion ) {
             rst = messages.COMPUTERWIN;
         }else{
             rst = messages.ERROR;    
@@ -46,7 +49,13 @@ function selectWinner( gamerOpcion, computerOption ){
     return rst;
 }
 
-selectWinner('PAPEL', 'PIEDRA');
+// MAIN PROGRAM
+let cantOptions     = arrayOptionsAllowed.length;
+let computerOption  = arrayOptionsAllowed[  Math.floor(Math.random() * Math.floor(cantOptions)) ];
+let humaneOption    = 'PAPEL';
+
+console.log(`Comienza el juego. Opcion Humano: ${humaneOption} -VS- Opcion computadora: ${computerOption}`);
+selectWinner(humaneOption, computerOption);
 
 
 
