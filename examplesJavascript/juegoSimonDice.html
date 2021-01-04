@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -10,6 +11,7 @@
         display: flex;
         align-items: center;
         height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
       }
 
       .gameboard {
@@ -77,12 +79,12 @@
         position: absolute;
         top: calc(50% - 50px);
         left: calc(50% - 200px);
+        border-radius: 50px;;
       }
 
       .hide {
         display: none;
       }
-      
     </style>
   </head>
   <body>
@@ -93,22 +95,47 @@
       <div id="verde"   class="color verde right" data-color="verde"></div>
       <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>">
+    
     <script>
-
+      
+      alert("2020/12 - Juego {Simon Dice} con Javascript. Del curso Fundamentos de JS de Platzi. Maximo 5 Niveles.")
+      
       const celeste = document.getElementById('celeste')
       const violeta = document.getElementById('violeta')
       const naranja = document.getElementById('naranja')
       const verde = document.getElementById('verde')
       const btnEmpezar = document.getElementById('btnEmpezar')
+      const CANT_OPCIONES_COLOR = 4
+      const ULTIMO_NIVEL = 5  //NIVEL MAXIMO
 
       class Juego {        
         constructor(){
+          //this.inicializar = this.inicializar.bind(this)
           this.inicializar()
           this.iniciarSecuencia()
+          setTimeout(this.siguienteNivel, 400);
         }
+        
         inicializar(){
-            btnEmpezar.classList.add('hide')
+          
+          //Para que el this en el contexto de elegirColor haga referencia al juego y no al boton.
+          var self = this
+          this.elegirColor = this.elegirColor.bind(self)  
+          this.siguienteNivel = this.siguienteNivel.bind(self)
+
+          //console.log('settimeout inside:', color);
+          this.toggleBtnEmpezar()
+          //btnEmpezar.classList.add('hide')
+          this.nivel = 1
+          this.colores = {
+              celeste,
+              violeta,
+              naranja,
+              verde
+          }
         }
+        
         iniciarSecuencia(){
           /*
           this.secuencia = new Array(10).fill(1).map(function(n){
@@ -116,9 +143,141 @@
           });
           */
           //Arrow function mode
-          this.secuencia = new Array(10).fill(1).map(n => Math.floor( Math.random()*4 )
+          this.secuencia = new Array(ULTIMO_NIVEL).fill(1).map(n => Math.floor( Math.random()*CANT_OPCIONES_COLOR )
           )
         }
+
+        siguienteNivel() {
+          this.subNivel = 0
+          this.iluminarSecuencia()
+          this.addEventosClick()
+        }
+
+        homologaNumeroAColor(numero){
+          
+          let color;
+          switch (numero){
+            case 0:
+              color = 'celeste'
+              break
+            case 1:
+              color = 'violeta'
+              break
+            case 2:
+              color = 'naranja'
+              break
+            case 3:
+              color =  'verde'
+              break
+          }
+          return color
+        }
+
+        homologaColorANumero(color){
+          
+          let numero;
+          switch (color){
+            case 'celeste':
+              numero = 0
+              break
+            case 'violeta':
+              numero = 1
+              break
+            case 'naranja':
+              numero = 2
+              break
+            case 'verde':
+              numero = 3
+              break
+          }
+          return numero
+        }
+
+        apagarColor(color) {
+          this.colores[color].classList.remove('light')
+        }
+
+        iluminarColor(color){
+          this.colores[color].classList.add('light')
+          setTimeout(() => this.apagarColor(color), 300)
+        }
+
+        iluminarSecuencia() {
+          for (let i=0; i < this.nivel; i++){
+            const color = this.homologaNumeroAColor(this.secuencia[i])
+            //console.log(color);
+            setTimeout(() => {
+              //console.log('settimeout inside:', color);
+              this.iluminarColor(color)
+            }, 800 * i )
+          }
+        }
+
+        addEventosClick() {
+          //this.colores.celeste.addEventListener('click', this.elegirColor.bind(this))
+          this.colores.celeste.addEventListener('click', this.elegirColor)
+          this.colores.verde.addEventListener('click', this.elegirColor)
+          this.colores.violeta.addEventListener('click', this.elegirColor)
+          this.colores.naranja.addEventListener('click', this.elegirColor)
+        }
+
+        eliminarEventosClick() {
+          this.colores.celeste.removeEventListener('click', this.elegirColor)
+          this.colores.verde.removeEventListener('click', this.elegirColor)
+          this.colores.violeta.removeEventListener('click', this.elegirColor)
+          this.colores.naranja.removeEventListener('click', this.elegirColor)
+        }
+
+        elegirColor(event) {
+          //console.log(this)
+          //console.log(event)
+          const nombreColor = event.target.dataset.color
+          const numeroColor = this.homologaColorANumero(nombreColor)
+          this.iluminarColor(nombreColor)
+
+          if (numeroColor === this.secuencia[this.subNivel]){
+            this.subNivel++
+            if (this.subNivel === this.nivel) {
+              this.nivel++
+              this.eliminarEventosClick()
+              if (this.nivel === (ULTIMO_NIVEL+1)) {
+                this.ganoElJuego()
+              } else{
+                setTimeout(this.siguienteNivel, 1500);
+              }
+
+            }
+          } else{
+            this.perdioElJuego()
+          }
+        }
+
+        ganoElJuego() {
+          swal('Juego Simon', 'Ganaste el Juego!', 'success')
+            /*1. Para no utilizar el bind en el contructor de inicializar,
+              se preserva la ref. de this al juego*/  
+            .then(() => this.inicializar() )  
+            /*2.This queda undefined, se requiere el uso de bind*/
+              //.then(this.inicializar)
+        }
+
+        perdioElJuego() {
+          swal('Juego Simon', 'Perdiste!', 'error')
+            .then(() => {
+              this.eliminarEventosClick()
+              this.inicializar()
+            })
+
+        }
+
+        toggleBtnEmpezar() {
+          if (btnEmpezar.classList.contains('hide')) {
+            btnEmpezar.classList.remove('hide')
+          } else {
+            btnEmpezar.classList.add('hide')
+          }
+        }
+
       }
       
       function empezarJuego(){
