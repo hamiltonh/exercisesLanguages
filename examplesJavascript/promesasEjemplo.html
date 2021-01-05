@@ -1,0 +1,112 @@
+<!-- 12/2020
+PROMESAS EJEMPLOS
+PETICIONES A LA API DE SWAPI.DEV CON JQUERY
+CURSO FUNDAMENTOS DE JS EN PLATZI
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <span>Testing promesas por consola</span>
+</body>
+<script language="javascript" type="text/javascript">
+/*2020 - Ejemplos de promesas con peticiones a una API, utilizando Jquery*/
+
+    const API_URL = 'https://swapi.dev/api/'
+    const PEOPLE_URL = 'people/:id/'
+    const ops = {crossDomain: true}
+
+    function obtenerPersonaje(id){
+        return new Promise((resolve, reject)=>{
+            const url = `${API_URL}${PEOPLE_URL.replace(':id',id)}` 
+
+            $.get(url,ops, function(data){
+                resolve(data)
+            }) 
+            .fail(()=> reject(id))
+        })   
+    }
+
+    function onError(id){
+        console.log(`Sucedio un error al obtener ${id}`)
+    }
+    
+    /*
+    //FORMA 1. Llamados asincronos - El orden se los console cambia, por cada ejecucion
+    for(var i = 1; i<10; i++){
+
+        obtenerPersonaje(i) 
+        .then((personaje)=>{
+            console.log(`El personaje es  ${personaje.name}`)
+            return obtenerPersonaje(i) //Returnamos una promesa
+        })
+        .catch(onError)
+    }
+    */
+
+    /*
+    //FORMA 2. Llamados en serie - Definimos el orden
+    obtenerPersonaje(1) 
+    .then((personaje)=>{
+        console.log(`EN SERIE: El personaje 1 es  ${personaje.name}`)
+        return obtenerPersonaje(2) //Returnamos una promesa
+    })
+    .then(personaje =>{
+        console.log(`EN SERIE: El personaje 2 es  ${personaje.name}`)
+        return obtenerPersonaje(3) //Returnamos una promesa
+    })
+    .then(personaje =>{
+        console.log(`EN SERIE: El personaje 3 es  ${personaje.name}`)
+    })
+    .catch(onError)
+    */
+
+    /*
+    // FORMA 3 - LLAMADAS EN PARALELO DE UN ARRAY DE PROMESAS CON PROMISE.ALL ORDENADO A TRAVES DEL ID
+    let ids = []
+    for(let i = 1; i <= 16; i++) {
+    ids.push(i)
+    }
+
+    let promesas = ids.map(id => obtenerPersonaje(id))
+    Promise
+    .all(promesas)
+    .then(personajes => console.log(personajes))
+    .catch(onError)
+    */
+
+
+    //FORMA 4 - UTILIZANDO ASYNC /AWAIT PARA LE GESTION DE PROMESAS
+    //Para el uso de await se requiere que la funcion sea ASYNC
+    async function getPersonajes() {
+        
+        //Preparacion de consecutivo
+        let ids = []
+        for(let i = 1; i <= 16; i++) {
+        ids.push(i)
+        }
+
+        //Alistamniento de las promesas en un array
+        let promesas = ids.map(id => obtenerPersonaje(id))
+        
+        //Requerido bloques try/catch para el uso de await
+        try{
+            let personajes = await Promise.all(promesas) // Await espera todas las promesas.
+            console.table(personajes)
+        } catch(id) {
+            onError(id)
+        }
+    }
+    getPersonajes()
+
+</script>
+</html>
