@@ -1,2 +1,0 @@
-# programmingLanguages
-Bbasic programming exercises
