@@ -1,0 +1,21 @@
+{
+  "name": "nodejstest",
+  "version": "1.0.0",
+  "description": "Pruebas NodeJS",
+  "main": "src/index.js",
+  "scripts": {
+    "testRequestApi": "node src/testRequestApi/index.js",
+    "usingXmlHttpRequest": "node src/testRequestApi/usingXmlHttpRequest.js",
+    "usingPromises": "node src/testRequestApi/usingPromises.js",
+    "usingAsyncAwait": "node src/testRequestApi/usingAsyncAwait.js"
+  },
+  "keywords": [
+    "learning",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  }
+}
