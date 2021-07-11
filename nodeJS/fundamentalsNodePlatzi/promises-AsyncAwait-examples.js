@@ -9,12 +9,12 @@
 //     .then( res => res.json() )
 //     .then( json => console.log(json.data[0].imageurl))
 // }
-// ---------------------------------------------------------------
-
 
 // console.log('INI SIN CALLBACK');
 // requestApi()
 // console.log('FIN');
+// ---------------------------------------------------------------
+
 
 
 // CON CALLBACK
@@ -28,13 +28,13 @@
 //     .then( json => callback(json.data[0].imageurl))
 // }
 
-
 // console.log('INI CALLBACK');
 // requestApi((rst)=>{
 //     console.log(rst);
 //     console.log('FIN');
 // })
 // ---------------------------------------------------------------
+
 
 
 
@@ -69,6 +69,7 @@
 // ---------------------------------------------------------------
 
 
+
 // CON ASYNC-AWAIT
 const fetch = require('node-fetch')
 const requestApi = ()=>{
@@ -87,7 +88,6 @@ const requestApi = ()=>{
 }
 
 console.log('INI CON SYNC AWAIT');
-
 (async function () {
     rst = await requestApi()
     console.log('rst :>> ', rst);
