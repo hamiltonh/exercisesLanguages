@@ -85,3 +85,13 @@ const finalRta =  Object.entries(cantidades).reduce( (acum, el) => acum[1] > el[
 console.log(finalRta);
 
 
+// 6. Is palindrom word?
+
+console.clear();
+const palabra = 'ala'
+const isPalindrome = str => {
+    const lowerWord = str.toLowerCase()
+    const reverse_word = lowerWord.split('').reverse().join('')
+    return str === reverse_word
+}
+console.log(isPalindrome(palabra));
