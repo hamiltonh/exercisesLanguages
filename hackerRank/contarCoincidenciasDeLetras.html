@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <small>
+        10-2021: Ejercicio: Contar cuantas coincidencias existen por cada letra, de una cadena dada.
+    </small>
+    <table>
+        <tr>
+            <td>
+                <label for="">Ingrese nombre</label>
+                <input type="text" id="texto-a-evaluar">
+                <button onclick='evaluar()'>Calcular</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="">Resultado</label>
+                <input  id="resultado" type="text" disabled>
+            </td>
+        </tr>
+    </table>
+<script>
+    
+    function evaluar(){
+        
+        const texto = document.getElementById('texto-a-evaluar').value
+        const rst = JSON.stringify(contarLetrasRepetidas(texto))
+        document.getElementById('resultado').value= rst
+
+    }
+
+    function contarLetrasRepetidas(cadena){
+
+        let arrayRst = {}
+        for(let i=0; i< cadena.length; i++){
+
+            if(arrayRst[ cadena[i] ] > 0) {
+                continue;
+            } 
+            
+            arrayRst[ cadena[i] ] = 1
+            for(let j=i+1; j< cadena.length; j++){
+                if( /*i !==j && */cadena[i] === cadena[j]){
+                    
+                    arrayRst[ cadena[i] ] += 1
+                }
+            }       
+        }
+        return arrayRst;
+    }
+
+</script>
+</body>
+</html>
