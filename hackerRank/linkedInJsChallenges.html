@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- // https://www.linkedin.com/learning/javascript-code-challenges?courseClaim=AQHOGdx7u6Ls3gAAAXz8twsiAS-53z1_xjxVh3vtFFJHnnzB1WITa68O8ZnmqcXFB734uNZbOiPErO3zUmxx_6P5BFVYBj-9eKhtpyRzO_W_PLwExtHJMdmQT7SouhG19PGMOQNTswvcH9q22KqZB_lFGmzZV6LfGPfAeoETUP8yPQHavYehTrrF3w5A8_8-xd_UrwEdAclG_UxLG3eR_OY80bIn8UMOPphXV5NKQTlJoaUTK4v-ZApvyw5JkEQTuuAA2exsisj0pnlZJOchRyUSRv_l1bz2RtSOf_RFZ9c5u8t8y3l9WDGAwRlV3CUIkcpUNVdJ4SBsgTFyohy7qEpJP3mpXz7JBbhmo_syzmVHeQynHbP3_ner4rcGO9U686_nVNWB5y1Ut53mKpwFRuPz9I04I-oop6uBYN5MmrCqUuqMFV6I1sx51lnkaNkCW0LG1cpZE6_Bx7bsJG8YjXcrWU7ZNkYp5zjo7seBIcAUrG9jwiR0wxxOhRB2AkAUFRB1jP1K8MDunmYkgRjfUCQtymD9ENIlxoiErkeuP3FzbcDu_8iP2MMioDdkk8F6uHDiDe9XlT-vVCAcPZzPWhIGO0vC7mCg4678o_txUMBJlCj0c-EtNhD1nM61TRr2tW9ZeG8hwijz3EAOXoVEtmnUpEcEqICIk4HBX2H3kbVnvAn7-kGg-1YNPDwNDlsfSBvG&trk=feed-share_course_title_learning&lipi=urn%3Ali%3Apage%3Ad_flagship3_detail_base%3BJkM9wclcS4%2B7%2FFGeS1ycbQ%3D%3D&licu=urn%3Ali%3Acontrol%3Ad_flagship3_detail_base-viewCourse&lici=IQ2aHMjbT12MMLmHfw9CCA%3D%3D -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="Click to Next station! (Open the console)" id='next-station'>
+    
+    <br>
+    <span>Retrieve images with fetch:</span>
+    <div id="list-images"></div>
+<script>
+
+    // // generators
+    // let generator = function*() {
+    //     yield 'Parada Estadio'
+    //     yield 'Parada Manzana del Saber'
+    //     yield 'Parada San Bosco'
+    //     yield 'Parada Fray Damian'
+    //     yield 'Parada Torre de Cali'
+    // }
+
+    // let gen = generator()
+
+    // const btnNextStation = document.querySelector('#next-station')
+    // btnNextStation.addEventListener('click', ()=>{
+    //     const rst = gen.next()
+    //     // console.log(rst)
+    //     if(rst.done){
+    //         console.log('Final del trayecto!')
+    //         btnNextStation.setAttribute('disabled', true)
+    //     } else {
+    //         console.log(rst.value)
+    //     }
+
+    // })
+
+
+
+    // fetch
+    async function getData(){
+
+        const response = await fetch('https://randomuser.me/api/?results=5')
+        const {results} = await response.json()
+        console.log(results)
+        const divList = document.querySelector('#list-images')
+
+        results.forEach(element => {
+            
+            let img = document.createElement('img')
+            img.src = element.picture.medium
+            divList.appendChild(img)
+
+        });
+
+    }
+
+    console.log('INI test fetch')
+    getData()
+
+</script>
+</body>
+</html>

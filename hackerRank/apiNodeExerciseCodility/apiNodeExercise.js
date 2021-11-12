@@ -81,3 +81,43 @@ app.get('/candidates/search', function(req, res) {
 });
 
 app.listen(process.env.HTTP_PORT || 3000);
+
+
+// solution should create an HTTP server that responds to GET somehow
+// OK
+
+// solution should return 404 when no candidates are defined
+// OK
+
+// solution should never retrieve a candidate who knows nothing
+// OK
+
+// solution should return nobody when querying for skills that nobody has
+// OK
+
+// solution should support single-digit candidate and skill names
+// OK
+
+// solution should define and retrieve a single candidate with a single skill
+// OK
+
+// solution should pick the better candidate
+// OK
+
+// solution should return the winner's skillset and name alongside the ID
+// OK
+
+// solution should pick the best candidate among several with graded scores
+// OK
+
+// solution should return any of the candidates if equally skilled
+// OK
+
+// solution should be capable of changing the winner after querying
+// OK
+
+// solution should not mutate state
+// OK
+
+// solution should pick from 2k candidates
+// OK
